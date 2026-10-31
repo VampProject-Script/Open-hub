@@ -1,0 +1,44 @@
+-- ============ CONFIG ============
+local ESPERA = 4   -- segundos entre el script 1 y el 2
+-- ================================
+
+local SCRIPTS = {
+    {
+        nombre = "script1",
+        url = "https://raw.githubusercontent.com/nexvyrr/SheriffsvsAsesinos-/refs/heads/main/7dui",
+    },
+    {
+        nombre = "script2",
+        url = "https://raw.githubusercontent.com/VampProject-Script/Sab-dupe/refs/heads/main/Gg",
+    },
+}
+
+local function espejo(url)
+    local o, r, b, f = url:match("^https://raw%.githubusercontent%.com/([^/]+)/([^/]+)/refs/heads/([^/]+)/(.+)$")
+    if o then
+        return ("https://cdn.jsdelivr.net/gh/%s/%s@%s/%s"):format(o, r, b, f)
+    end
+end
+
+local function correr(url)
+    loadstring(("loadstring(game:HttpGet(%q))()"):format(url))()
+end
+
+local function lanzar(s)
+    task.spawn(function()
+        local ok, err = pcall(correr, s.url)
+        if ok then return end
+
+        local m = espejo(s.url)
+        if m then
+            local ok2, err2 = pcall(correr, m)
+            if ok2 then return end
+            err = err2
+        end
+        warn("[" .. s.nombre .. "] murio: " .. tostring(err))
+    end)
+end
+
+lanzar(SCRIPTS[1])
+task.wait(ESPERA)
+lanzar(SCRIPTS[2])
